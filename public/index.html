@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>socket io redis store</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="http://<%=host%>/socket.io/socket.io.js"></script>
+    <script>
+        var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
+        if (supportsWebSockets) {
+            var socket = io('http://<%=host%>', {
+                path: '/socket.io',
+                transports: ['websocket']
+            });
+
+            socket.on('message', function(data){
+                $('#chat').append('<li>'+ data +'</li>');
+            });
+
+            $(function() {
+                $('#btnSend').click(function(){
+                    socket.emit('message', $('#inputText').val());
+                    $('#chat').append('<li>'+ $('#inputText').val() +'</li>');
+                    $('#inputText').val('');
+                });
+            })
+        } else {
+            alert('websocket을 지원하지 않는 브라우저입니다.');
+        }
+
+    </script>
+</head>
+<body>
+socketio redis store...<br/>
+<input type="text" id="inputText" />
+<button id="btnSend">보내기</button>
+<ul id="chat"></ul>
+</body>
+</html>
