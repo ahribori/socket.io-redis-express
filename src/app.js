@@ -65,14 +65,32 @@ const io = require('socket.io')(server, {
 
 io.adapter(redis({ host: 'localhost', port: 6379 }));
 
-io.sockets.on('connection', (socket) => {
-    console.log('onconnection -> ' + port);
-    socket.on('message', (message) => {
-         socket.broadcast.emit('message', message);
-    });
+// default namespace '/'
+const defaultNamespace = io.sockets;
 
+defaultNamespace.on('connection', (socket) => {
+    console.log('namespace / connected');
+    socket.on('message', (message) => {
+        console.log('/ -> ' + message);
+        socket.broadcast.emit('message', message);
+    });
+});
+
+// custom namespace '/chat1'
+const chatroom1 = io.of('/chatroom1'); // chat1 이라는 namespace 선언
+chatroom1.on('connection', (socket) => {
+    console.log('namespace /chatroom1 connected');
+    socket.join('room1'); // 'chat1' namespace의 'room1' room 입장
+    // socket.leave('room1', () => {}); // 'room1' room 퇴장
+    socket.on('message', (message) => {
+        console.log('/chatroom1 -> ' + message);
+        // chatroom1.to('room1').emit('message', message); // 'chat1' namespace의 'room1' room에 boardcast
+        // socket.broadcast.to('room1').emit('message', message); // 'chat1' namespace의 'room1' room에 boardcast (위 방법과의 차이점은 모르겠다)
+    });
 });
 
 server.listen(port, () => {
-    figlet(`${port} PORT`, (err, data) => { console.log(data); })
+    figlet(`${port} PORT`, (err, data) => {
+        console.log(data);
+    })
 });

@@ -8,7 +8,7 @@
     <script>
         var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
         if (supportsWebSockets) {
-            var socket = io('http://<%=host%>', {
+            var socket = io('http://<%=host%>/chatroom1', {
                 path: '/socket.io',
                 transports: ['websocket']
             });
