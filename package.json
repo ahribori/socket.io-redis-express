@@ -14,7 +14,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-babili": "^0.1.4",
     "babel-preset-env": "^1.6.0",
     "cross-env": "^5.0.5",
     "nodemon": "^1.12.0"
@@ -34,8 +33,7 @@
           "transform-async-to-generator"
         ],
         "presets": [
-          "env",
-          "babili"
+          "env"
         ]
       }
     }
