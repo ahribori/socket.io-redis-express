@@ -14,6 +14,7 @@
             });
 
             socket.on('message', function(data){
+                console.log(data);
                 $('#chat').append('<li>'+ data +'</li>');
             });
 
