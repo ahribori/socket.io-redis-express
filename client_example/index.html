@@ -4,17 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>socket io redis store</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="http://<%=host%>/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
     <script>
         var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
         if (supportsWebSockets) {
-            var socket = io('http://<%=host%>/chatroom1', {
+            var socket = io('http://localhost:8080/namespace1', {
                 path: '/socket.io',
                 transports: ['websocket']
             });
 
             socket.on('message', function(data){
-                console.log(data);
                 $('#chat').append('<li>'+ data +'</li>');
             });
 
