@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const redis = require('socket.io-redis');
+const config = require('../conf');
+const { redis: redisConfig } = config;
 
 const createServer = (app, port) => {
   // Create HTTP Server
@@ -13,7 +15,19 @@ const createServer = (app, port) => {
   });
 
   // SocketIO - Redis configuration
-  io.adapter(redis({ host: 'localhost', port: 6379 }));
+  if (redisConfig) {
+    const { host, port } = redisConfig;
+    if (host && port > 0) {
+      const redisAdapter = redis({ host, port });
+      io.adapter(redisAdapter);
+      redisAdapter.pubClient.on('connect', () => {
+        console.log('Redis adapter pubClient connected');
+      });
+      redisAdapter.subClient.on('connect', () => {
+        console.log('Redis adapter subClient connected');
+      });
+    }
+  }
 
   // Load namespace modules
   const namespaces = fs.readdirSync(path.resolve(__dirname, 'namespaces'));
