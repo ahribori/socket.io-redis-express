@@ -5,12 +5,12 @@ const router = express.Router();
 import sample from './sample';
 
 router.get('/', (req, res) => {
-    res.json('Express');
+  res.json('Express');
 });
 
 router.post('/', (req, res) => {
-    console.log(req.body);
-    res.json('Express');
+  console.log(req.body);
+  res.json('Express');
 });
 
 router.use('/api', cors());
