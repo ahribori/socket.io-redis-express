@@ -1,6 +1,5 @@
-module.exports = io => {
-  const defaultNamespace = io.sockets;
-  defaultNamespace.on('connection', socket => {
+module.exports = io =>
+  io.sockets.on('connection', socket => {
     const { id, nsp } = socket;
     console.log(`[ID=${id}, NAMESPACE=${nsp.name}] connected.`);
     socket.on('message', message => {
@@ -12,4 +11,3 @@ module.exports = io => {
       console.log(`[ID=${id}, NAMESPACE=${nsp.name}] disconnected. (${reason})`);
     });
   });
-};
