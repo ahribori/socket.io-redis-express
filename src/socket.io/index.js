@@ -15,7 +15,7 @@ const createServer = (app, port) => {
   });
 
   // SocketIO - Redis configuration
-  if (redisConfig) {
+  if (redisConfig.enable) {
     const { host, port } = redisConfig;
     if (host && port > 0) {
       const redisAdapter = redis({ host, port });
