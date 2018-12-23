@@ -1,19 +1,8 @@
-import express from 'express';
-import cors from 'cors';
+const express = require('express');
 const router = express.Router();
 
-import sample from './sample';
-
 router.get('/', (req, res) => {
-  res.json('Express');
+  res.json('ok');
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body);
-  res.json('Express');
-});
-
-router.use('/api', cors());
-router.use('/api/sample', sample);
-
-export default router;
+module.exports = router;

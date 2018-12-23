@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const createServer = require('./socket.io');
 const config = require('./conf');
+const api = require('./api');
+
 /* =========================================
  Express Configuration
  ============================================*/
@@ -34,6 +36,8 @@ app.get('/', (req, res) => {
 
 // set public path
 app.use('/', express.static(path.resolve('public')));
+
+app.use('/api', api);
 
 /* handle error */
 app.use(function(err, req, res, next) {
