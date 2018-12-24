@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const redis = require('socket.io-redis');
+const redis = require('redis');
+const socketIoRedisAdapter = require('socket.io-redis');
 const config = require('../conf');
 const { redis: redisConfig } = config;
 
@@ -16,9 +17,13 @@ const createServer = (app, port) => {
 
   // SocketIO - Redis configuration
   if (redisConfig.enable) {
-    const { host, port } = redisConfig;
+    const { host, port, password } = redisConfig;
+
     if (host && port > 0) {
-      const redisAdapter = redis({ host, port });
+      const pubClient = redis.createClient({ host, port, password });
+      const subClient = redis.createClient({ host, port, password });
+      const redisAdapter = socketIoRedisAdapter({ pubClient, subClient });
+
       io.adapter(redisAdapter);
       redisAdapter.pubClient.on('connect', () => {
         console.log('Redis adapter pubClient connected');
