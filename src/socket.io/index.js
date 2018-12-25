@@ -3,6 +3,7 @@ const path = require('path');
 const redis = require('redis');
 const socketIoRedisAdapter = require('socket.io-redis');
 const config = require('../conf');
+const authMiddleware = require('./middlewares/auth');
 const { redis: redisConfig } = config;
 
 const createServer = (app, port) => {
@@ -14,6 +15,8 @@ const createServer = (app, port) => {
     path: '/socket.io',
     transports: ['websocket'],
   });
+
+  io.use(authMiddleware);
 
   // SocketIO - Redis configuration
   if (redisConfig.enable) {

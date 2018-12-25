@@ -11,12 +11,18 @@
         var socket = io('http://<%=host%>/namespace1', {
           path: '/socket.io',
           transports: ['websocket'],
+          query: {
+            accessToken: 'xxxxx'
+          },
         });
 
         socket.on('message', function(data) {
           $('#chat').append('<li>' + data + '</li>');
         });
 
+        socket.on('error', function(error) {
+          console.error(error);
+        });
 
         $(function() {
           function sendMessage() {
@@ -26,13 +32,12 @@
           }
 
           $('#btnSend').click(sendMessage);
-          $('#inputText').keypress(function (e) {
+          $('#inputText').keypress(function(e) {
             if (e.charCode === 13 || e.keyCode === 13) {
               sendMessage();
             }
-          })
+          });
         });
-
       } else {
         alert('websocket을 지원하지 않는 브라우저입니다.');
       }
